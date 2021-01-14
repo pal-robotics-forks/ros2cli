@@ -600,13 +600,13 @@ class TestROS2TopicCLI(unittest.TestCase):
         with self.launch_topic_command(
             arguments=['echo', '/this_topic_has_no_pub'],
         ) as topic_command:
-            assert topic_command.wait_for_shutdown(timeout=2)
+            assert topic_command.wait_for_shutdown(timeout=10)
         assert topic_command.exit_code != launch_testing.asserts.EXIT_OK
         assert launch_testing.tools.expect_output(
             expected_lines=[
                 'Could not determine the type for the passed topic',
             ],
-            text=topic_command.output,
+            text=topic_command.stderr,
             strict=True
         )
 
